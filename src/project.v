@@ -16,23 +16,25 @@ module tt_um_xxd_theshteves (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+  reg [7:0] fib;
+  reg [7:0] next_fib;
+
   // All output pins must be assigned. If not used, assign to 0.
+  assign uo_out = fib;
   assign uio_out = 0;
   assign uio_oe  = 0;
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
-
-  reg [7:0] next_fib;
-  
   always @(posedge clk or negedge rst_n) begin
       if (!rst_n) begin
-          uo_out <= 1;
+          fib <= 1;
           next_fib <= 1;
       end else begin
-          uo_out <= next_fib;
-          next_fib <= ou_out + next_fib;
+          fib <= next_fib;
+          next_fib <= fib + next_fib;
       end
   end
+
+  // List all unused inputs to prevent warnings
+  wire _unused = &{ena, clk, rst_n, 1'b0};
 
 endmodule
