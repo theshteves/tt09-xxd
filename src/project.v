@@ -16,17 +16,17 @@ module tt_um_xxd_theshteves (
   input  wire       rst_n     // reset_n - low to reset
 );
 
-  reg [1023:0] ugh;
+  reg [511:0] ugh;
 
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      ugh <= 1024'b0;
+      ugh <= 512'b0;
     end else begin
-      ugh <= {ugh[1015:0], ui_in};
+      ugh <= {ugh[503:0], ui_in};
     end
   end
 
-  assign uo_out = ugh[1023:1016];
+  assign uo_out = ugh[511:504];
 
   /*
   localparam e    = 2'b01;
