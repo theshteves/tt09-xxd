@@ -17,16 +17,16 @@ module tt_um_xxd_theshteves (
 );
 
   reg [2047:0] ugh;
-  assign uo_out = ugh[2047:2040];
-  assign ui_in = ugh[7:0];
 
-  integer i;
-  always @(posedge clk) begin
-    for (i = 0; i < 2046; i = i + 1) begin
-      ugh[i+1] <= ugh[i];
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      ugh <= 2048'b0;
+    end else begin
+      ugh <= {ugh[2039:2032], ui_in};
     end
-    ugh[0] <= rst_n;
   end
+
+  assign uo_out = ugh[2047:2040];
 
   /*
   localparam e    = 2'b01;
@@ -79,10 +79,9 @@ module tt_um_xxd_theshteves (
   */
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uio_out = 8'hff;
-  assign uio_in  = 8'haa;
-  assign uio_oe  = 8'hf;
+  assign uio_out = 0;
+  assign uio_oe  = 0;
 
-  wire _unused = &{ena, 1'b0};
+  wire _unused = &{ena, uio_in, 1'b0};
 
 endmodule
