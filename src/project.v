@@ -16,71 +16,56 @@ module tt_um_xxd_theshteves (
   input  wire       rst_n     // reset_n - low to reset
 );
 
-  reg [399:0] ugh;
-
-  always @(posedge clk or negedge rst_n) begin
+  reg [7:0] ui_buf;
+  always @(posedge clk) begin
     if (!rst_n) begin
-      ugh <= 400'b0;
+      ui_buf <= 8'b0;
     end else begin
-      ugh <= {ugh[391:0], ui_in};
+      ui_buf <= ui_in;
     end
   end
 
-  assign uo_out = ugh[399:392];
-
-  /*
-  localparam e    = 2'b01;
-  localparam ee   = 2'b10;
-  localparam eee  = 2'b11;
-  localparam eeee = 2'b11;
-
-  always @(posedge clk or negedge rst_n) begin
-    if(!rst_n) begin
-        doh <= sorry;
-
+  reg [63:0] snake;
+  always @(posedge clk) begin
+    if (!rst_n) begin
+      snake <= 64'b0;
     end else begin
-      case (doh)
-        sorry: begin
-            doh <= e;
-        end
-        e: begin
-            doh <= ee;
-        end
-        ee: begin
-            doh <= eee;
-        end
-        eee: begin
-            doh <= eeee;
-        end default:;
-      endcase
+      snake <= {snake[55:0], ui_buf};
     end
   end
-  */
 
-
-  /*
-  reg [7:0] fib;
-  reg [7:0] next_fib;
-
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out = fib;
-  assign uio_out = 0;
-  assign uio_oe  = 0;
-
-  always @(posedge clk or negedge rst_n) begin
-      if (!rst_n) begin
-          fib <= 1;
-          next_fib <= 1;
-      end else begin
-          fib <= next_fib;
-          next_fib <= fib + next_fib;
-      end
+  reg [63:0] snaake;
+  always @(posedge clk) begin
+    if (!rst_n) begin
+      snaake <= 64'b0;
+    end else begin
+      snaake <= {snaake[55:0], snake[63:56]};
+    end
   end
-  */
+
+  reg [63:0] snaaake;
+  always @(posedge clk) begin
+    if (!rst_n) begin
+      snaaake <= 64'b0;
+    end else begin
+      snaaake <= {snaaake[55:0], snaake[63:56]};
+    end
+  end
+
+  reg [63:0] snaaaake;
+  always @(posedge clk) begin
+    if (!rst_n) begin
+      snaaaake <= 64'b0;
+    end else begin
+      snaaaake <= {snaaaake[55:0], snaaake[63:56]};
+    end
+  end
+
+  assign uo_out = snaaaake[63:56];
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+  assign uio_out = 8'b0;
+  assign uio_oe  = 8'b0;
 
   wire _unused = &{ena, uio_in, 1'b0};
 
