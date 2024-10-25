@@ -22,7 +22,7 @@ module tt_um_xxd_theshteves (
     if (!rst_n) begin
       ugh <= 2048'b0;
     end else begin
-      ugh <= {ugh[2039:2032], ui_in};
+      ugh <= {ugh[2039:0], ui_in};
     end
   end
 
